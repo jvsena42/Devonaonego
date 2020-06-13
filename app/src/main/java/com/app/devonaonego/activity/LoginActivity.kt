@@ -1,19 +1,20 @@
-package com.app.devonaonego
+package com.app.devonaonego.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.app.devonaonego.R
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
     }
 
     fun telaCadastro(view:View){
-        val intent = Intent(this,CadastroActivity::class.java)
+        val intent = Intent(this, CadastroActivity::class.java)
         startActivity(intent)
     }
 }
