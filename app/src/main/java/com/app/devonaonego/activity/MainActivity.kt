@@ -1,8 +1,10 @@
 package com.app.devonaonego.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.CalendarView
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,10 +21,10 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var firebaseAuth: FirebaseAuth? = null
+    private var firebaseAuth: FirebaseAuth? = null
 
-    var calendarView:MaterialCalendarView? = null
-    var mesAnoSelecionado: String = ""
+    private var calendarView:MaterialCalendarView? = null
+    private var mesAnoSelecionado: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +42,6 @@ class MainActivity : AppCompatActivity() {
 
         configuraCalendarView()
 
-        fab.setOnClickListener { view ->
-
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -60,7 +59,17 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun configuraCalendarView() {
+    fun telaReceita(view:View){
+        var intent = Intent(this,ReceitaActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun telaDespesa (view:View){
+        var intent = Intent(this,DespesaActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun configuraCalendarView() {
         val meses = arrayOf<CharSequence>(
             "Janeiro",
             "Fevereiro",
