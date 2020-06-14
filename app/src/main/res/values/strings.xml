@@ -2,5 +2,5 @@
     <string name="app_name">Devo, não nego</string>
     <string name="texto_cadasto1">Não tem conta?</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_sair">Sair</string>
 </resources>

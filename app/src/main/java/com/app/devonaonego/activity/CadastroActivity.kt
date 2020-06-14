@@ -21,7 +21,7 @@ class CadastroActivity : AppCompatActivity() {
     //Referências banco de dados
     private var mDatabase: DatabaseReference? = null
     private var userRef: DatabaseReference? = null
-    private var mAuth: FirebaseAuth? = null
+    private var firebaseAuth: FirebaseAuth? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,7 @@ class CadastroActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cadastro)
 
         //Configurações iniciais
-        mAuth = ConfiguracaoFirebase.firebaseAuth
+        firebaseAuth = ConfiguracaoFirebase.firebaseAuth
         mDatabase = ConfiguracaoFirebase.firebaseDatabase
         userRef = mDatabase!!.child("usuarios")
     }
@@ -42,10 +42,10 @@ class CadastroActivity : AppCompatActivity() {
         if (nome.isNotEmpty() && email.isNotEmpty() && senha.isNotEmpty()){
 
             //Fazer cadastro do usuário
-            mAuth!!.createUserWithEmailAndPassword(email,senha).addOnCompleteListener(this){task ->
+            firebaseAuth!!.createUserWithEmailAndPassword(email,senha).addOnCompleteListener(this){task ->
                 if (task.isSuccessful){
 
-                    val userId = mAuth!!.currentUser!!.uid
+                    val userId = firebaseAuth!!.currentUser!!.uid
                     val usuario = Usuario(nome,email,userId)
                     usuario.salvar()
                     abrirTelaPrincipal()
