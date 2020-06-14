@@ -23,7 +23,7 @@ object ConfiguracaoFirebase {
         }
 
     //retorna a instancia do FirebaseAuth
-    val firebaseAutenticacao: FirebaseAuth?
+    val firebaseAuth: FirebaseAuth?
         get() {
             if (referenciaAutenticacao == null) {
                 referenciaAutenticacao = FirebaseAuth.getInstance()

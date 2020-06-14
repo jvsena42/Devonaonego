@@ -29,7 +29,7 @@ class CadastroActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cadastro)
 
         //Configurações iniciais
-        mAuth = ConfiguracaoFirebase.firebaseAutenticacao
+        mAuth = ConfiguracaoFirebase.firebaseAuth
         mDatabase = ConfiguracaoFirebase.firebaseDatabase
         userRef = mDatabase!!.child("usuarios")
     }
