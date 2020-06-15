@@ -4,8 +4,12 @@ import com.app.devonaonego.helper.ConfiguracaoFirebase
 import com.app.devonaonego.helper.DateCustom
 import com.google.firebase.database.DatabaseReference
 
-data class Movimentacao (var data: String = "", var categoria: String = "",
-                         var descricao: String ="", var tipo:String, var valor:Double, var idUsuario:String="") {
+data class Movimentacao (var data: String = "",
+                         var categoria: String = "",
+                         var descricao: String ="",
+                         var tipo:String,
+                         var valor:Double,
+                         var idUsuario:String="") {
 
     fun salvar(){
         idUsuario = ConfiguracaoFirebase.getIdUsuario()

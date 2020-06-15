@@ -15,12 +15,12 @@
         <TextView
                 android:text="Carregando..."
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView5" android:gravity="center"
+                android:layout_height="wrap_content" android:id="@+id/textResumoSaldacao" android:gravity="center"
                 android:textSize="18sp" android:textColor="@android:color/white"/>
         <TextView
                 android:text="R$ 0.00"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView6" android:textSize="30sp"
+                android:layout_height="wrap_content" android:id="@+id/textResumoSaldo" android:textSize="30sp"
                 android:gravity="center" android:textColor="@android:color/white" android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"/>
         <TextView
@@ -47,5 +47,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calendarViewId" android:id="@+id/recyclerMovimentos"/>
+            app:layout_constraintTop_toBottomOf="@+id/calendarViewId" android:id="@+id/recyclerResumoMovimentos"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

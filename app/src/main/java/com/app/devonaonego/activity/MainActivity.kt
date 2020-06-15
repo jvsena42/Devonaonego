@@ -5,27 +5,43 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.CalendarView
-import com.google.android.material.snackbar.Snackbar
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar
 import com.app.devonaonego.R
 import com.app.devonaonego.helper.ConfiguracaoFirebase
+import com.app.devonaonego.model.Usuario
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
-import com.prolificinteractive.materialcalendarview.OnMonthChangedListener
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity() {
 
-    private var firebaseAuth: FirebaseAuth? = null
 
+    //Firebase
+    private var firebaseAuth: FirebaseAuth? = null
+    private var databaseRef: DatabaseReference? = null
+    private var usuarioRef: DatabaseReference? = null
+    private var valueEventListenerUser: ValueEventListener? = null
+    private var idUsuario: String = ""
+
+    //Datas
     private var calendarView:MaterialCalendarView? = null
     private var mesAnoSelecionado: String = ""
 
+    //Valores
+    private var nome:String = ""
+    private var despesaTotal: Double = 0.0
+    private var receitaTotal: Double = 0.0
+    private var saldo: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,13 +50,51 @@ class MainActivity : AppCompatActivity() {
         toolbar.title = ""
         setSupportActionBar(toolbar)
 
-        //Configurações iniciais
-        firebaseAuth = ConfiguracaoFirebase.firebaseAuth
-
         //inicializar componentes
         calendarView = findViewById(R.id.calendarViewId)
 
+        //Configurações iniciais
+        firebaseAuth = ConfiguracaoFirebase.firebaseAuth
+        databaseRef = ConfiguracaoFirebase.firebaseDatabase
+        idUsuario = ConfiguracaoFirebase.getIdUsuario()
+        usuarioRef = databaseRef!!.child("usuarios").child(idUsuario)
+
+
         configuraCalendarView()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        recuperarDadosUsuario()
+    }
+
+    fun recuperarDadosUsuario(){
+
+        valueEventListenerUser = usuarioRef!!.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(@NonNull dataSnapshot: DataSnapshot) {
+                val usuario = dataSnapshot.getValue(Usuario::class.java)
+                nome = usuario!!.nome
+                receitaTotal = usuario.receitaTotal
+                despesaTotal = usuario.despesaTotal
+                var direfenca= receitaTotal-despesaTotal
+
+                var decimalFormat = DecimalFormat("0.00")
+                saldo = decimalFormat.format(direfenca)
+
+                atualizarDados()
+            }
+
+            override fun onCancelled(@NonNull databaseError: DatabaseError) {
+
+            }
+        })
+
+    }
+
+    fun atualizarDados(){
+        textResumoSaldacao.text = "Bem-vindo, $nome!"
+        textResumoSaldo.text = "R$ $saldo"
 
     }
 
@@ -97,6 +151,11 @@ class MainActivity : AppCompatActivity() {
             //movimentacaoRef.removeEventListener(valueEventListenerMovimentacoes);
             //recuperarMovimentacoes();
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        usuarioRef!!.removeEventListener(this.valueEventListenerUser!!)
     }
 }
 
