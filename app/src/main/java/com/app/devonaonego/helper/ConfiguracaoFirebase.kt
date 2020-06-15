@@ -40,4 +40,10 @@ object ConfiguracaoFirebase {
             return referenciaStorage!!
         }
 
+    //Recuperar id do usuario
+    fun getIdUsuario(): String {
+        val firebaseAuth = firebaseAuth
+        return firebaseAuth?.currentUser!!.uid
+    }
+
 }

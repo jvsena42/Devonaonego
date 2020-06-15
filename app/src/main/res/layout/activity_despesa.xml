@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
-                android:id="@+id/editText" android:gravity="right" android:hint="R$ 0.00"
+                android:id="@+id/editDespesaValor" android:gravity="right" android:hint="R$ 0.00"
                 android:textColor="@android:color/white"
                 android:background="@android:color/transparent" android:textSize="30sp"/>
     </LinearLayout>
@@ -29,35 +29,35 @@
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
-            android:id="@+id/editReceitaData2"
+            android:id="@+id/editDespesaData"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintVertical_chainStyle="packed"
             android:hint="14/06/2020"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-            app:layout_constraintBottom_toTopOf="@+id/spinnerReceitaCategoria2"
+            app:layout_constraintBottom_toTopOf="@+id/spinnerDespesaCategoria"
             app:layout_constraintVertical_bias="0.15"/>
     <Spinner
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:id="@+id/spinnerReceitaCategoria2" app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/spinnerDespesaCategoria" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp" android:layout_marginEnd="16dp" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toBottomOf="@+id/editReceitaData2"
-            app:layout_constraintBottom_toTopOf="@+id/editReceitaDescrição2" android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/editDespesaData"
+            app:layout_constraintBottom_toTopOf="@+id/editDespesaDescricao" android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" android:clipToPadding="false" android:dropDownWidth="match_parent"/>
     <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/editReceitaDescrição2"
+            android:id="@+id/editDespesaDescricao"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
             app:layout_constraintHorizontal_bias="0.5" android:hint="pizza"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerReceitaCategoria2"/>
+            app:layout_constraintTop_toBottomOf="@+id/spinnerDespesaCategoria"/>
     <ImageButton
             android:layout_width="@dimen/fab_size_normal"
             android:layout_height="@dimen/fab_size_normal" app:srcCompat="@drawable/ic_check_white_24dp"
@@ -65,5 +65,5 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:layout_marginBottom="32dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/colorAccent"/>
+            android:background="@color/colorAccent" android:onClick="salvarDespesa"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
