@@ -28,9 +28,9 @@ class DespesaActivity : AppCompatActivity() {
     private var campoCategoria: Spinner? = null
     private var firebaseRef: DatabaseReference? = null
     private var usuarioRef: DatabaseReference? = null
-    private var firebaseAuth: FirebaseAuth? = null
     private var despesaTotal: Double? = 0.0
-    var idUsuario = ""
+    private var idUsuario = ""
+    private var valueEventListenerDespesa: ValueEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,13 +43,12 @@ class DespesaActivity : AppCompatActivity() {
         //Configurações iniciais
         campoData?.setText(DateCustom.dataAtual())
         firebaseRef = ConfiguracaoFirebase.firebaseDatabase
-        firebaseAuth = ConfiguracaoFirebase.firebaseAuth
 
         idUsuario = ConfiguracaoFirebase.getIdUsuario()
         usuarioRef = firebaseRef!!.child("usuarios").child(idUsuario)
 
-        recuperarDespesaTotal()
         carregarDadosSpinner()
+        recuperarDespesaTotal()
 
     }
 
@@ -65,8 +64,9 @@ class DespesaActivity : AppCompatActivity() {
     }
 
     fun salvarDespesa(view: View){
+
         var data = editDespesaData.text.toString()
-        var categoria = campoCategoria?.selectedItem.toString()
+        var categoria = spinnerDespesaCategoria?.selectedItem.toString()
         var descricao = editDespesaDescricao.text.toString()
         var tipo = "d"
         var valor = editDespesaValor?.text.toString().toDouble()
@@ -90,7 +90,7 @@ class DespesaActivity : AppCompatActivity() {
 
     fun recuperarDespesaTotal(){
 
-        usuarioRef!!.addValueEventListener(object : ValueEventListener {
+        valueEventListenerDespesa = usuarioRef!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(@NonNull dataSnapshot: DataSnapshot) {
                 val usuario = dataSnapshot.getValue(Usuario::class.java)
                 despesaTotal = usuario?.despesaTotal
@@ -104,5 +104,10 @@ class DespesaActivity : AppCompatActivity() {
 
     fun atualizarDespesaTotal(despesa: Double){
         usuarioRef!!.child("despesaTotal").setValue(despesa)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        usuarioRef!!.removeEventListener(this.valueEventListenerDespesa!!)
     }
 }
