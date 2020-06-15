@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
 
         //Configurações iniciais
         firebaseAuth = ConfiguracaoFirebase.firebaseAuth!!
-
+        //firebaseAuth!!.signOut()
     }
 
     fun validarLogin(view: View){

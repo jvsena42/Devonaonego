@@ -49,7 +49,6 @@ class DespesaActivity : AppCompatActivity() {
 
         carregarDadosSpinner()
         recuperarDespesaTotal()
-
     }
 
     private fun carregarDadosSpinner() {
@@ -73,7 +72,7 @@ class DespesaActivity : AppCompatActivity() {
 
         if (data.isNotEmpty() && categoria.isNotEmpty() && descricao.isNotEmpty() && tipo.isNotEmpty() && valor!=null){
 
-            var movimentacao = Movimentacao(data,categoria,descricao,tipo,valor)
+            var movimentacao = Movimentacao(data,categoria,descricao,tipo,valor,idUsuario)
 
             var despesaAtualizada = valor + despesaTotal!!
             atualizarDespesaTotal(despesaAtualizada)

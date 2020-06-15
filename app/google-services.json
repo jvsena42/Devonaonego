@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1052569316045",
+    "firebase_url": "https://devo-nao-nego.firebaseio.com",
+    "project_id": "devo-nao-nego",
+    "storage_bucket": "devo-nao-nego.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052569316045:android:39c71c5625760e94c69784",
+        "android_client_info": {
+          "package_name": "com.app.devonaonego"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052569316045-pd185hqkm0j5noqujtq96lm1u7lene90.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.devonaonego",
+            "certificate_hash": "3d2e08458547daad2e65e17419f2a29d52194e17"
+          }
+        },
+        {
+          "client_id": "1052569316045-phn1r52fkku3e57gv3h08j58be1tfld2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTiEqYAwvm-tFF7jD8nOoUE5SmNlBsFDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052569316045-phn1r52fkku3e57gv3h08j58be1tfld2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

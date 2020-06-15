@@ -45,7 +45,7 @@ class CadastroActivity : AppCompatActivity() {
             firebaseAuth!!.createUserWithEmailAndPassword(email,senha).addOnCompleteListener(this){task ->
                 if (task.isSuccessful){
 
-                    val userId = firebaseAuth!!.currentUser!!.uid
+                    val userId = ConfiguracaoFirebase.getIdUsuario()
                     val usuario = Usuario(nome,email,userId)
                     usuario.salvar()
                     abrirTelaPrincipal()

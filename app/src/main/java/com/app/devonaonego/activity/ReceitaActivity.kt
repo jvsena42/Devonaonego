@@ -69,7 +69,7 @@ class ReceitaActivity : AppCompatActivity() {
 
         if (data.isNotEmpty() && categoria.isNotEmpty() && descricao.isNotEmpty() && tipo.isNotEmpty() && valor!=null){
 
-            var movimentacao = Movimentacao(data,categoria,descricao,tipo,valor)
+            var movimentacao = Movimentacao(data,categoria,descricao,tipo,valor,idUsuario)
 
             var receitaAtualizada = valor + receitaTotal!!
             atualizarReceitaTotal(receitaAtualizada)

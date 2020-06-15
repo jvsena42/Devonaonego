@@ -2,14 +2,20 @@ package com.app.devonaonego.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.app.devonaonego.R
+import com.app.devonaonego.adapter.AdapterMovim
+import com.app.devonaonego.adapter.AdapterMovimentacao
 import com.app.devonaonego.helper.ConfiguracaoFirebase
+import com.app.devonaonego.model.Movimentacao
 import com.app.devonaonego.model.Usuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -22,16 +28,10 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.text.DecimalFormat
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
-
-    //Firebase
-    private var firebaseAuth: FirebaseAuth? = null
-    private var databaseRef: DatabaseReference? = null
-    private var usuarioRef: DatabaseReference? = null
-    private var valueEventListenerUser: ValueEventListener? = null
-    private var idUsuario: String = ""
 
     //Datas
     private var calendarView:MaterialCalendarView? = null
@@ -43,6 +43,23 @@ class MainActivity : AppCompatActivity() {
     private var receitaTotal: Double = 0.0
     private var saldo: String = ""
 
+    //Objetos
+    private var recyclerView: RecyclerView? = null
+    //private var adapterMovimentacao: AdapterMovimentacao? = null
+    private var adapterMov: AdapterMovim? = null
+    private val movimentacoes = ArrayList<Movimentacao>()
+
+    //private var listMovimentacoes = arrayListOf<Movimentacao?>()
+
+    //Firebase
+    private var firebaseAuth: FirebaseAuth? = null
+    private var databaseRef: DatabaseReference? = null
+    private var usuarioRef: DatabaseReference? = null
+    private var movimentacaoRef: DatabaseReference? = null
+    private var valueEventListenerUser: ValueEventListener? = null
+    private var valueEventListenerMovimentacao: ValueEventListener? = null
+    private var idUsuario: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -52,28 +69,38 @@ class MainActivity : AppCompatActivity() {
 
         //inicializar componentes
         calendarView = findViewById(R.id.calendarViewId)
+        recyclerView = findViewById(R.id.recyclerResumoMovimentos)
 
         //Configurações iniciais
         firebaseAuth = ConfiguracaoFirebase.firebaseAuth
-        databaseRef = ConfiguracaoFirebase.firebaseDatabase
         idUsuario = ConfiguracaoFirebase.getIdUsuario()
-        usuarioRef = databaseRef!!.child("usuarios").child(idUsuario)
-
+        databaseRef = ConfiguracaoFirebase.firebaseDatabase
 
         configuraCalendarView()
+
+        //Configurar adapter
+        adapterMov = AdapterMovim(movimentacoes, this)
+
+        //Configurar Recyclerview
+        val layoutManager = LinearLayoutManager(this)
+        recyclerView?.layoutManager = layoutManager
+        recyclerView?.setHasFixedSize(true)
+        recyclerView?.adapter = adapterMov
 
     }
 
     override fun onStart() {
         super.onStart()
         recuperarDadosUsuario()
+        //recuperarMovimentacoes()
     }
 
     fun recuperarDadosUsuario(){
 
+        usuarioRef = databaseRef!!.child("usuarios").child(idUsuario)
         valueEventListenerUser = usuarioRef!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(@NonNull dataSnapshot: DataSnapshot) {
-                val usuario = dataSnapshot.getValue(Usuario::class.java)
+                var usuario = dataSnapshot.getValue(Usuario::class.java)
                 nome = usuario!!.nome
                 receitaTotal = usuario.receitaTotal
                 despesaTotal = usuario.despesaTotal
@@ -92,8 +119,34 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun recuperarMovimentacoes(){
+
+        movimentacaoRef = databaseRef!!.child("movimentacoes").child(idUsuario).child(mesAnoSelecionado)
+
+        Log.i("MES","mes: $mesAnoSelecionado")
+
+        valueEventListenerMovimentacao = movimentacaoRef!!.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(@NonNull dataSnapshot: DataSnapshot) {
+
+                movimentacoes.clear()
+                for (dados:DataSnapshot in dataSnapshot.children) {
+                    Log.i("DADOS","dados: $dados")
+                    var movimentacao: Movimentacao? = dados.getValue(Movimentacao::class.java)
+                    if (movimentacao != null) {
+                        movimentacoes.add(movimentacao)
+                    }
+                }
+                adapterMov!!.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(@NonNull databaseError: DatabaseError) {
+
+            }
+        })
+    }
+
     fun atualizarDados(){
-        textResumoSaldacao.text = "Bem-vindo, $nome!"
+        textResumoSaldacao.text = "Olá, $nome!"
         textResumoSaldo.text = "R$ $saldo"
 
     }
@@ -141,21 +194,24 @@ class MainActivity : AppCompatActivity() {
         calendarView?.setTitleMonths(meses)
 
         var dataAtual: CalendarDay? = calendarView?.getCurrentDate()
-        var mesSelecionado = String.format("%02d", dataAtual?.month?.plus(1))
-        mesAnoSelecionado = mesSelecionado + "" + dataAtual?.year
+        var mesSelecionado =String.format("%02d",dataAtual!!.month+1)
+        mesAnoSelecionado = mesSelecionado + "" + dataAtual.year
+
 
         calendarView?.setOnMonthChangedListener { widget, date ->
-            var mesSelecionado = String.format("%02d", date.month + 1)
-            mesAnoSelecionado = mesSelecionado + "" + date.year
 
-            //movimentacaoRef.removeEventListener(valueEventListenerMovimentacoes);
-            //recuperarMovimentacoes();
+            var mesSelecionado2 =String.format("%02d",date!!.month+1)
+            mesAnoSelecionado = mesSelecionado2 + "" + date.year
+
+            //movimentacaoRef!!.removeEventListener(this.valueEventListenerMovimentacao!!)
+            //recuperarMovimentacoes()
         }
     }
 
     override fun onStop() {
         super.onStop()
         usuarioRef!!.removeEventListener(this.valueEventListenerUser!!)
+        //movimentacaoRef!!.removeEventListener(this.valueEventListenerMovimentacao!!)
     }
 }
 

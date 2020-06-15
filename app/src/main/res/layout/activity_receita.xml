@@ -22,7 +22,7 @@
                 android:ems="10"
                 android:id="@+id/editReceitaValor" android:gravity="right" android:hint="R$ 0.00"
                 android:textColor="@android:color/white"
-                android:background="@android:color/transparent" android:textSize="30sp"/>
+                android:background="@android:color/transparent" android:textSize="30sp" android:text="0.00"/>
     </LinearLayout>
     <EditText
             android:layout_width="0dp"
