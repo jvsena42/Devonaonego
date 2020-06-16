@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#8BC34A</color>
-    <color name="colorPrimaryDark">#5a9216</color>
-    <color name="colorAccent">#BEF67A</color>
+    <color name="colorPrimary">#01c7d2</color>
+    <color name="colorPrimaryDark">#0095a0</color>
+    <color name="colorAccent">#ff867c</color>
+
+    <color name="colorPrimaryDespesa">#EF5350</color>
+    <color name="colorPrimaryDarkDespesa">#B61827</color>
+    <color name="colorAccentDespesa">#FF867C</color>
+
+    <color name="colorPrimaryReceita">#9ccc64</color>
+    <color name="colorPrimaryDarkReceita">#6B9B36</color>
+    <color name="colorAccentReceita">#CFFF94</color>
 </resources>

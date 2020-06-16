@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.NonNull
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     //private var adapterMovimentacao: AdapterMovimentacao? = null
     private var adapterMov: AdapterMovimentacao? = null
-    private val movimentacoes: MutableList<Movimentacao> = mutableListOf<Movimentacao>()
+    private val movimentacoes: MutableList<Movimentacao> = mutableListOf()
 
     //Firebase
     private var firebaseAuth: FirebaseAuth? = null
@@ -189,7 +189,7 @@ class MainActivity : AppCompatActivity() {
         )
         calendarView?.setTitleMonths(meses)
 
-        var dataAtual: CalendarDay? = calendarView?.getCurrentDate()
+        var dataAtual: CalendarDay? = calendarView?.currentDate
         var mesSelecionado =String.format("%02d",dataAtual!!.month+1)
         mesAnoSelecionado = mesSelecionado + "" + dataAtual.year
 

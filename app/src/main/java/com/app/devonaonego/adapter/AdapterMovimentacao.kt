@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.devonaonego.R
+import com.app.devonaonego.R.color.colorAccentReceita
 import com.app.devonaonego.model.Movimentacao
 import kotlinx.android.synthetic.main.adapter_movimentacao.view.*
 
@@ -24,11 +25,21 @@ class AdapterMovimentacao (private val movimentacoes: List<Movimentacao>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movimentacao = movimentacoes[position]
 
-        holder?.let{
+        holder?.let{ it ->
             it.titulo.text = movimentacao.descricao
             it.valor.text = movimentacao.valor.toString()
             it.categoria.text = movimentacao.categoria
+
+            it.valor.setTextColor(context.resources.getColor(colorAccentReceita))
+
+            if (movimentacao.tipo =="d"){
+                holder.valor.setTextColor(context.resources.getColor(R.color.colorAccent))
+                var valor = movimentacao.valor
+                holder.valor.text = "- $valor"
+            }
         }
+
+
 
     }
 
