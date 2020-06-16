@@ -4,56 +4,38 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.devonaonego.R
 import com.app.devonaonego.model.Movimentacao
+import kotlinx.android.synthetic.main.adapter_movimentacao.view.*
 
-/**
- * Created by Joao Victor
- */
+class AdapterMovimentacao (private val movimentacoes: List<Movimentacao>,
+                           private val context: Context): RecyclerView.Adapter<AdapterMovimentacao.ViewHolder>() {
 
-class AdapterMovimentacao(var movimentacoes: List<Movimentacao>, internal var context: Context) :
-    RecyclerView.Adapter<AdapterMovimentacao.MyViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemLista = LayoutInflater.from(parent.context).inflate(R.layout.adapter_movimentacao, parent, false)
-        return MyViewHolder(itemLista)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.adapter_movimentacao,parent,false)
+        return ViewHolder(view)
     }
-
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val (_, categoria, descricao, tipo, valor) = movimentacoes[position]
-
-        holder.titulo.text = descricao
-        holder.valor.text = valor.toString()
-        holder.categoria.text = categoria
-
-        holder.valor.setTextColor(context.resources.getColor(R.color.colorAccent))
-
-        if (tipo == "d") {
-            holder.valor.setTextColor(context.resources.getColor(R.color.colorAccent))
-            holder.valor.text = "-$valor"
-        }
-    }
-
 
     override fun getItemCount(): Int {
         return movimentacoes.size
     }
 
-    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val movimentacao = movimentacoes[position]
 
-        internal var titulo: TextView
-        internal var valor: TextView
-        internal var categoria: TextView
-
-        init {
-
-            titulo = itemView.findViewById(R.id.textAdapterTitulo)
-            valor = itemView.findViewById(R.id.textAdapterValor)
-            categoria = itemView.findViewById(R.id.textAdapterCategoria)
+        holder?.let{
+            it.titulo.text = movimentacao.descricao
+            it.valor.text = movimentacao.valor.toString()
+            it.categoria.text = movimentacao.categoria
         }
+
+    }
+
+    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        val titulo = itemView.textAdapterTitulo
+        val valor = itemView.textAdapterValor
+        val categoria = itemView.textAdapterCategoria
 
     }
 

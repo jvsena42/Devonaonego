@@ -12,7 +12,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.devonaonego.R
-import com.app.devonaonego.adapter.AdapterMovim
 import com.app.devonaonego.adapter.AdapterMovimentacao
 import com.app.devonaonego.helper.ConfiguracaoFirebase
 import com.app.devonaonego.model.Movimentacao
@@ -28,7 +27,6 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.text.DecimalFormat
-import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,10 +44,8 @@ class MainActivity : AppCompatActivity() {
     //Objetos
     private var recyclerView: RecyclerView? = null
     //private var adapterMovimentacao: AdapterMovimentacao? = null
-    private var adapterMov: AdapterMovim? = null
-    private val movimentacoes = ArrayList<Movimentacao>()
-
-    //private var listMovimentacoes = arrayListOf<Movimentacao?>()
+    private var adapterMov: AdapterMovimentacao? = null
+    private val movimentacoes: MutableList<Movimentacao> = mutableListOf<Movimentacao>()
 
     //Firebase
     private var firebaseAuth: FirebaseAuth? = null
@@ -79,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         configuraCalendarView()
 
         //Configurar adapter
-        adapterMov = AdapterMovim(movimentacoes, this)
+        adapterMov = AdapterMovimentacao(movimentacoes, this)
 
         //Configurar Recyclerview
         val layoutManager = LinearLayoutManager(this)
@@ -92,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         recuperarDadosUsuario()
-        //recuperarMovimentacoes()
+        recuperarMovimentacoes()
     }
 
     fun recuperarDadosUsuario(){
@@ -203,15 +199,15 @@ class MainActivity : AppCompatActivity() {
             var mesSelecionado2 =String.format("%02d",date!!.month+1)
             mesAnoSelecionado = mesSelecionado2 + "" + date.year
 
-            //movimentacaoRef!!.removeEventListener(this.valueEventListenerMovimentacao!!)
-            //recuperarMovimentacoes()
+            movimentacaoRef!!.removeEventListener(this.valueEventListenerMovimentacao!!)
+            recuperarMovimentacoes()
         }
     }
 
     override fun onStop() {
         super.onStop()
         usuarioRef!!.removeEventListener(this.valueEventListenerUser!!)
-        //movimentacaoRef!!.removeEventListener(this.valueEventListenerMovimentacao!!)
+        movimentacaoRef!!.removeEventListener(this.valueEventListenerMovimentacao!!)
     }
 }
 
